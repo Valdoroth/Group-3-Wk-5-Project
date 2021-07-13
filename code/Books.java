@@ -5,23 +5,24 @@ public class Books {
     private String Title;
     private String Author;
     private int CheckOutQty;
-    private int InStock;
+    private int totalStock;
     private double Price;
     private String Description;
     Scanner input = new Scanner(System.in);
 
-    public Books(String ISBN, String title, String author, int checkOutQty, int inStock, double price, String description) {
+    public Books(String ISBN, String title, String author, int checkOutQty, int totalStock, double price, String description) {
         this.ISBN = ISBN;
         Title = title;
         Author = author;
         CheckOutQty = checkOutQty;
-        InStock = inStock;
+        this.totalStock = totalStock;
         Price = price;
         Description = description;
     }
 
+    public Books() {
 
-
+    }
 
     public void showAllBooks(){
         System.out.println("\t\t\t\tSHOWING ALL BOOKS\n");
@@ -61,6 +62,35 @@ public class Books {
         }
     }
 
+    public String getISBN() {
+        return ISBN;
+    }
 
+    public String getTitle() {
+        return Title;
+    }
 
+    public String getAuthor() {
+        return Author;
+    }
+
+    public int getTotalStock() {
+        return totalStock;
+    }
+
+    public double getPrice() {
+        return Price;
+    }
+
+    public int getCheckOutQty() {
+        return CheckOutQty;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setCheckOutQty(int checkOutQty) {
+        CheckOutQty = checkOutQty;
+    }
 }
