@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class UserAccounts {
     String userName;
     String Password;
@@ -49,6 +52,4 @@ public class UserAccounts {
     public void setBooksCheckedOut(String booksCheckedOut) {
         this.booksCheckedOut = booksCheckedOut;
     }
-
-
 }

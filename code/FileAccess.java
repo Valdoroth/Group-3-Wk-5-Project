@@ -33,7 +33,6 @@ public class FileAccess {
         FileWriter writeToFile = new FileWriter(String.valueOf(bookLocation2));
         //writeToFile.write(String.valueOf(bookList));
         StringBuilder lineToWrite = new StringBuilder();
-        int i = 0;
         for (Books line : bookList) {
             lineToWrite.append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription()).append("\n");
             System.out.println(lineToWrite);
@@ -71,16 +70,7 @@ public class FileAccess {
 
 
     public static void main(String[] args) throws IOException {
-        FileAccess.getUsers();
-        for(UserAccounts a: FileAccess.getUsers()) System.out.println(a.getUsername());
-        List<UserAccounts> addMe = new ArrayList<>();
-        for(int i =0; i < 5; i++) {
-            UserAccounts account = new UserAccounts("user" + i, "pass" + i + i * 2, "first", "last", "none");
-            addMe.add(account);
-        }
-        FileAccess.setUsers(addMe);
         /*
-
         List<Books> bookList = getBooks();
         //String lookMeUp = "978-0865165601";
         //String[] manyISBN = {"978-0865165601","978-1250252715","978-1250142283"};
