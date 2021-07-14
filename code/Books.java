@@ -31,15 +31,15 @@ public class Books {
         bookMap.forEach((key,value)-> System.out.println("Key: " + key + " " + value.title));
     }
 
-    public void searchByAuthorName(){
-        Scanner input = new Scanner(System.in);
-        System.out.println("\t\t\t\tSEARCH BY AUTHOR'S NAME");
-        input.nextLine();
-        System.out.println("Enter Author Name:");
-        String authorName = input.nextLine();
-
-        // check against the books.csv file
-    }
+//    public void searchByAuthorName(){
+//        Scanner input = new Scanner(System.in);
+//        System.out.println("\t\t\t\tSEARCH BY AUTHOR'S NAME");
+//        input.nextLine();
+//        System.out.println("Enter Author Name:");
+//        String authorName = input.nextLine();
+//
+//        // check against the books.csv file
+//    }
 
     public boolean isAvailable(int keyNo){
         // Lookup the keyNo in the file to get the qty
