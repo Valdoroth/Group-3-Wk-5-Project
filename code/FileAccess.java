@@ -38,12 +38,12 @@ public class FileAccess {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         List<Books> bookList = getBooks();
         //String lookMeUp = "978-0865165601";
         //String[] manyISBN = {"978-0865165601","978-1250252715","978-1250142283"};
-        int stockChange;
+        //int stockChange;
 
         //for (Books i : bookList) {
         //    System.out.println("ISBN: " + i.getISBN() + "\tTitle: " + i.getTitle());
