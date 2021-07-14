@@ -3,18 +3,16 @@ import java.util.HashMap;
 import java.util.List;
 
 public class CheckOut {
-
     private List<Books> checkedOut;
     private int inventoryQty;
     private int checkedOutQty;
-    private HashMap<UserAccounts, Books> checkOutMap;
+    private HashMap<Users, Books> checkOutMap;
 
     //this method will return the books available for checkout
-    public List getInventory(){
+    public List<Books> getInventory(){
         List<Books> inventory = new ArrayList<>();
 
         inventory = FileAccess.getBooks();
-
         inventory.removeAll(checkedOut);
 
         return inventory;
@@ -27,18 +25,18 @@ public class CheckOut {
     }
 
     public Boolean isAvailable(){
-        if(inventoryQty > checkedOutQty)
-            return true;
-        else
-            return false;
+        return inventoryQty > checkedOutQty;
     }
 
     //returns the number of this book available for checkout
     public String getAvailability(String ISBN) {
-        return  "Copies available: " + (inventoryQty - checkedOutQty);
+        List<Books> tempList = FileAccess.getBooks();
+        int available = 0;
+        for(Books i: tempList) if(i.getISBN().equals(ISBN)) available = (i.getTotalStock()-i.getCheckOutQty());
+        return  "Copies available: " + available;
     }
 
-    public void checkOut(Books book){
+    public void getCheckedOut(Books book){
 
     }
 

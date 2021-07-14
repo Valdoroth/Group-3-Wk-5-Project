@@ -7,7 +7,7 @@ public class FileAccess {
     private static final Path bookLocation2 = Path.of(System.getProperty("user.dir")+"/resources/booksTestWrite.csv");
     private static final Path userAccountLocation = Path.of(System.getProperty("user.dir")+"/resources/userAccountsTest.txt");
     public static List<Books> bookList;
-    private static List<UserAccounts> users;
+    protected static List<Users> users;
 
     public FileAccess() {
     }
@@ -19,7 +19,7 @@ public class FileAccess {
             String bookLine;
             while((bookLine = readThisFile.readLine())!= null) {
                 String[] books = bookLine.split(",/");
-                bookList.add(new Books(books[0], books[1], books[2], Integer.parseInt(books[3]), Integer.parseInt(books[4]), Double.parseDouble(books[5]), books[6]));
+                bookList.add(new Books(Integer.parseInt(books[0]), books[1], books[2], books[3], Integer.parseInt(books[4]), Integer.parseInt(books[5]), Double.parseDouble(books[6]), books[7]));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -31,23 +31,24 @@ public class FileAccess {
     public static void setBooks(List<Books> booksUpdated) throws IOException {
         bookList = booksUpdated;
         FileWriter writeToFile = new FileWriter(String.valueOf(bookLocation2));
-        //writeToFile.write(String.valueOf(bookList));
-        StringBuilder lineToWrite = new StringBuilder();
         for (Books line : bookList) {
-            lineToWrite.append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription()).append("\n");
+            StringBuilder lineToWrite = new StringBuilder();
+            lineToWrite.append(line.getId()).append(",/").append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription());
             System.out.println(lineToWrite);
-            writeToFile.write(String.valueOf(lineToWrite));
+            writeToFile.write(String.valueOf(lineToWrite)+"\n");
+            writeToFile.flush();
         }
     }
 
-    public static List<UserAccounts> getUsers() {
-        List<UserAccounts> userList = new ArrayList<>();
+    public static List<Users> getUsers() {
+        List<Users> userList = new ArrayList<>();
 
         try (BufferedReader readThisFile = new BufferedReader(new FileReader(String.valueOf(userAccountLocation)))) {
             String userLine;
             while((userLine = readThisFile.readLine())!= null) {
                 String[] user = userLine.split(",");
-                userList.add(new UserAccounts(user[0], user[1], user[2], user[3], user[4]));
+                List<String> booksCheckedOut = Arrays.asList(user[4].split(","));
+                userList.add(new Users(user[0], user[1], user[2], user[3], booksCheckedOut));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -56,12 +57,12 @@ public class FileAccess {
         return userList;
     }
 
-    public static void setUsers(List<UserAccounts> userList) throws IOException {
+    public static void setUsers(List<Users> userList) throws IOException {
         users = userList;
         FileWriter writeToFile = new FileWriter(String.valueOf(userAccountLocation));
         StringBuilder lineToWrite = new StringBuilder();
-        for (UserAccounts line : userList) {
-            lineToWrite.append(line.getUsername()).append(",").append(line.getPassword()).append(",") .append(line.getFirstName()).append(",").append(line.getLastName()).append(",").append(line.getBooksCheckedOut()).append("\n");
+        for (Users line : userList) {
+            lineToWrite.append(line.getEmail()).append(",").append(line.getPassword()).append(",") .append(line.getFirstName()).append(",").append(line.getLastName()).append(",").append(line.getBooksCheckedOut()).append("\n");
             //System.out.println(lineToWrite);
             writeToFile.write(String.valueOf(lineToWrite));
         }
@@ -72,13 +73,13 @@ public class FileAccess {
     public static void main(String[] args) throws IOException {
         /*
         List<Books> bookList = getBooks();
-        //String lookMeUp = "978-0865165601";
-        //String[] manyISBN = {"978-0865165601","978-1250252715","978-1250142283"};
-        //int stockChange;
+        String lookMeUp = "978-0865165601";
+        String[] manyISBN = {"978-0865165601","978-1250252715","978-1250142283"};
+        int stockChange;
 
-        //for (Books i : bookList) {
-        //    System.out.println("ISBN: " + i.getISBN() + "\tTitle: " + i.getTitle());
-        //}
+        for (Books i : bookList) {
+            System.out.println("ISBN: " + i.getISBN() + "\tTitle: " + i.getTitle());
+        }
 
         HashMap<Integer,Books> bookMap = new HashMap<>();
         for (Books k : bookList) bookMap.put(bookList.indexOf(k),k);
@@ -89,17 +90,17 @@ public class FileAccess {
 
         System.out.println("=============================");
 
-        //for (Books i : bookList) {
-        //    for (String j : manyISBN) {
-        //        if (i.getISBN().equals(j))
-        //            System.out.println("Title: " + i.getTitle() + "\tAvailable Amount: " + i.getAvailableAmount());// System.out.println("ISBN: " + i.getISBN() + "\tTitle: " + i.getTitle());
+        for (Books i : bookList) {
+            for (String j : manyISBN) {
+                if (i.getISBN().equals(j))
+                    System.out.println("Title: " + i.getTitle() + "\tAvailable Amount: " + i.getAvailableAmount());// System.out.println("ISBN: " + i.getISBN() + "\tTitle: " + i.getTitle());
                 //else System.out.println("Book is not in library.");
-         //   }
-        //}
+           }
+        }
 
-
-        //setBooks(bookList);
         */
+        getBooks();
+        setBooks(bookList);
 
     }
 }

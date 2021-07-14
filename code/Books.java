@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Books {
+    private int id;
     private String ISBN;
     private String title;
     private String author;
@@ -12,7 +13,8 @@ public class Books {
     private String description;
     private HashMap<Integer,Books> bookMap = new HashMap<>();
 
-    public Books(String ISBN, String title, String author, int checkOutQty, int totalStock, double price, String description) {
+    public Books(int i, String ISBN, String title, String author, int checkOutQty, int totalStock, double price, String description) {
+        this.id = i;
         this.ISBN = ISBN;
         this.title = title;
         this.author = author;
@@ -69,6 +71,10 @@ public class Books {
         } else {
             System.out.println("Key is invalid for book.");
         }
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getISBN() {

@@ -1,8 +1,9 @@
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.util.UUID.randomUUID;
 
 public class Auth {
 
@@ -13,60 +14,49 @@ public class Auth {
     public Auth() {
         password = "";
         email = "";
-
-
-
     }
 
-    public void Start() {
+    public void start() throws IOException {
         String action = "";
         System.out.println("Welcome to the V.A.J.J. Library System");
-        while (!action.toUpperCase().equals("L") && !action.toUpperCase().equals("S")) {
+        while (!action.equalsIgnoreCase("L") && !action.equalsIgnoreCase("S")) {
             System.out.println(" Please enter L for Login or S for Signup ");
             action = input.nextLine();
 
-            if (!action.toUpperCase().equals("L") && !action.toUpperCase().equals("S")) {
+            if (!action.equalsIgnoreCase("L") && !action.equalsIgnoreCase("S")) {
                 System.out.println("Check your entry and try again");
             } else {
                 System.out.println("Thank you");
                 System.out.println();
             }
-
         }
-        if (action.toUpperCase().equals("L")) {
-            Login();
+        if (action.equalsIgnoreCase("L")) {
+            login();
         } else {
-
-            SignUp();
+            signUp();
         }
 
     }
 
-    public void Login() {
+    public void login() {
 
         boolean isValidated = false;
 
-
-
-
-        while (isValidated==false) {
+        while (!isValidated) {
             System.out.println("Enter your Email Address");
             email = input.nextLine();
-            isValidated = ValidateEmail(email);
-
+            isValidated = validateEmail(email);
         }
 
-        while (PassWordValidator(password) == false) {
+        while (!passWordValidator(password)) {
             System.out.println("Enter your password");
             password = input.nextLine();
-            PassWordValidator(password);
-            System.out.println(PassWordValidator(password));
-            if (PassWordValidator(password) == false) {
+            passWordValidator(password);
+            System.out.println(passWordValidator(password));
+            if (!passWordValidator(password)) {
                 System.out.println(" Password inValid please try again");
-            } else if (PassWordValidator(password) == true) {
-
-                UserAccounts.ValidateUser(email, password);
-
+            } else if (passWordValidator(password)) {
+                Users.ValidateUser(email, password);
             }
 
 
@@ -76,7 +66,7 @@ public class Auth {
     }
 
 
-    public void SignUp() {
+    public void signUp() throws IOException {
         String firstName = "";
         String lastName = "";
         String address = "";
@@ -92,15 +82,15 @@ public class Auth {
         lastName = input.nextLine();
         System.out.println(" Please enter your address");
         address = input.nextLine();
-        while (isEmailValid == false) {
+        while (!isEmailValid) {
             System.out.println(" Please enter your Email Address");
             email = input.nextLine();
-            isEmailValid = ValidateEmail(email);
-            if (isEmailValid == false) {
+            isEmailValid = validateEmail(email);
+            if (!isEmailValid) {
                 System.out.println("Not a valid email try again");
             }
         }
-        while (isPasswordValid == false) {
+        while (!isPasswordValid) {
             while (!password.equals(passwordChk) || password.length() == 0 || passwordChk.length() == 0) {
                 System.out.println(" Please enter your password,it must be at least 6 characters long" +
                         " and contain one capital letter and one of these special characters @#$%^&+=");
@@ -111,8 +101,8 @@ public class Auth {
                     System.out.println("Passwords did not match try again");
                 }
             }
-            isPasswordValid = PassWordValidator(password);
-            if (isPasswordValid == true) {
+            isPasswordValid = passWordValidator(password);
+            if (isPasswordValid) {
                 System.out.println("Password Valid");
 
             } else {
@@ -122,27 +112,21 @@ public class Auth {
         }
         if (firstName.length() == 0 || lastName.length() == 0 || address.length() == 0) {
             System.out.println("You left a space empty try again");
-            SignUp();
+            signUp();
         } else {
-            CreateUser(firstName, lastName, address, email, password);
+            List<String> booksCheckedOut = new ArrayList<>();
+            CreateUser(email,password, firstName, lastName,booksCheckedOut);
         }
-
-
     }
 
-    public boolean ValidateEmail(String email) {
+    public boolean validateEmail(String email) {
         boolean isValidEmail;
 
-        if (!email.substring(email.length() - 4).equals(".com") && email.length() < 8 && email.contains("@")) {
-            isValidEmail = false;
-
-        } else {
-            isValidEmail = true;
-        }
+        isValidEmail = email.substring(email.length() - 4).equals(".com") || email.length() >= 8 || !email.contains("@");
         return isValidEmail;
     }
 
-    public boolean PassWordValidator(String password) {
+    public boolean passWordValidator(String password) {
 
         String passwordReq = "^(?=.*[0-9])"
                 + "(?=.*[a-z])(?=.*[A-Z])"
@@ -157,9 +141,9 @@ public class Auth {
 
     }
 
-    public void CreateUser(String firstName, String lastName, String address, String email, String password) {
+    public void CreateUser(String email, String password, String firstName, String lastName, List<String> booksCheckedOut) throws IOException {
 
-        UserAccounts name = new UserAccounts(firstName, lastName, address, email, password);
+        Users name = new Users(email, password, firstName, lastName, booksCheckedOut);
         name.AddUserToArray(name);
         System.out.println(name);
     }
