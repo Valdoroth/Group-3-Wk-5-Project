@@ -6,7 +6,7 @@ public class FileAccess {
     private static final Path bookLocation = Path.of(System.getProperty("user.dir")+"/resources/booksTest.csv");
     private static final Path bookLocation2 = Path.of(System.getProperty("user.dir")+"/resources/booksTestWrite.csv");
     private static final Path userAccountLocation = Path.of(System.getProperty("user.dir")+"/resources/userAccountsTest.csv");
-    private static List<Books> bookList;
+    static List<Books> bookList;
     private static List<UserAccounts> users;
 
     public FileAccess() {

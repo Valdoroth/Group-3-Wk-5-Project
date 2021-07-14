@@ -20,6 +20,10 @@ public class CheckOut {
         return inventory;
     }
 
+    public void setCheckedOut(List<Books> checkedOut) {
+        for(Books i: FileAccess.bookList) if(i.getCheckOutQty() == i.getTotalStock()) checkedOut.add(i);
+        CheckedOut = checkedOut;
+    }
 
     //this might belong in User class
     public String validUser(){
@@ -37,7 +41,11 @@ public class CheckOut {
 
     //returns the number of this book available for checkout
     public String getAvailability(String ISBN) {
-        return  "Copies available: " + (InventoryQty - CheckedOutQty);
+        List<Books> books = FileAccess.bookList;
+        int totalAvailable = 0;
+        for(Books i : books) if(i.getISBN().equals(ISBN))  totalAvailable = (i.getTotalStock()-i.getCheckOutQty());
+
+        return  "Copies available: " + totalAvailable;
     }
 
     public void checkOut(Books book){
@@ -51,8 +59,11 @@ public class CheckOut {
         return "You currently have these titles out: ";
     }
 
-
-
-
+    public static void main(String[] args){
+        List<Books> books = FileAccess.getBooks();
+        String isbn = "978-0073511450";
+        CheckOut test = new CheckOut();
+        System.out.println(test.getAvailability(isbn));
+    }
 
 }
