@@ -53,22 +53,17 @@ public class Users {
         this.password = password;
     }
 
-    public void AddUserToArray(Users user) throws IOException {
-        List<Users> allUsers = FileAccess.getUsers();
-        allUsers.add(user);
-        FileAccess.setUsers(allUsers);
-    }
-
-    public static void ValidateUser(String emailAddress,String passwordChk){
+    public static void validateUser(String emailAddress, String passwordChk){
             List<Users> checkingUser = FileAccess.getUsers();
             for(var user : checkingUser){
                 if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
-                    System.out.println(user);
+                    System.out.println("Successfully logged in.");
                 }
                 else
                 {
                     System.out.println("You have entered the wrong email or password");
                 }
+                break;
             }
     }
 
@@ -80,6 +75,19 @@ public class Users {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public static void createUser(String emailCreate, String passwordCreate, String firstNameCreate, String lastNameCreate, List<Integer> booksCheckedOutCreate) throws IOException {
+        Users name = new Users(emailCreate, passwordCreate, firstNameCreate, lastNameCreate, booksCheckedOutCreate);
+        name.addUserToArray(name);
+        System.out.println(name);
+    }
+
+    public void addUserToArray(Users user) throws IOException {
+        List<Users> allUsers = FileAccess.getUsers();
+        allUsers.add(user);
+        FileAccess.setUsers(allUsers);
+        FileAccess.getUsers();
     }
 
     public List<Integer> getBooksCheckedOut() {
