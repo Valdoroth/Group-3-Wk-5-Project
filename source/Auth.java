@@ -7,9 +7,9 @@ import java.util.regex.Pattern;
 
 public class Auth {
 
-    Scanner input = new Scanner(System.in);
-    String email;
-    String password;
+    private Scanner input = new Scanner(System.in);
+    private String email;
+    private String password;
 
     public Auth() {
         password = "";
@@ -39,7 +39,6 @@ public class Auth {
     }
 
     public void login() {
-
         boolean isValidated = false;
 
         while (!isValidated) {
@@ -54,22 +53,20 @@ public class Auth {
             passWordValidator(password);
             System.out.println(passWordValidator(password));
             if (!passWordValidator(password)) {
-                System.out.println(" Password inValid please try again");
+                System.out.println(" Password invalid please try again");
             } else if (passWordValidator(password)) {
-                Users.ValidateUser(email, password);
+                Users.validateUser(email, password);
             }
 
-
         }
-
 
     }
 
 
-    public void signUp() throws IOException {
-        String firstName = "";
-        String lastName = "";
-        String address = "";
+    private void signUp() throws IOException {
+        String firstName;
+        String lastName;
+        //String address = "";
         boolean isEmailValid = false;
         boolean isPasswordValid = false;
         String passwordChk = "";
@@ -80,8 +77,8 @@ public class Auth {
         firstName = input.nextLine();
         System.out.println("Please enter your last Name");
         lastName = input.nextLine();
-        System.out.println(" Please enter your address");
-        address = input.nextLine();
+        //System.out.println(" Please enter your address");
+        //address = input.nextLine();
         while (!isEmailValid) {
             System.out.println(" Please enter your Email Address");
             email = input.nextLine();
@@ -110,12 +107,12 @@ public class Auth {
                 System.out.println("Password invalid");
             }
         }
-        if (firstName.length() == 0 || lastName.length() == 0 || address.length() == 0) {
+        if (firstName.length() == 0 || lastName.length() == 0) {
             System.out.println("You left a space empty try again");
             signUp();
         } else {
             List<Integer> booksCheckedOut = new ArrayList<>();
-            CreateUser(email,password, firstName, lastName,booksCheckedOut);
+            Users.createUser(email,password, firstName, lastName,booksCheckedOut);
         }
     }
 
@@ -126,29 +123,17 @@ public class Auth {
         return isValidEmail;
     }
 
-    public boolean passWordValidator(String password) {
-
+    private boolean passWordValidator(String password) {
         String passwordReq = "^(?=.*[0-9])"
                 + "(?=.*[a-z])(?=.*[A-Z])"
                 + "(?=.*[@#$%^&+=])"
                 + "(?=\\S+$).{6,20}$";
 
         Pattern compileReq = Pattern.compile(passwordReq);
-
         Matcher passwordMatch = compileReq.matcher(password);
 
         return passwordMatch.matches();
-
     }
-
-    public void CreateUser(String email, String password, String firstName, String lastName, List<Integer> booksCheckedOut) throws IOException {
-
-        Users name = new Users(email, password, firstName, lastName, booksCheckedOut);
-        name.AddUserToArray(name);
-        System.out.println(name);
-    }
-
-
 }
 
 

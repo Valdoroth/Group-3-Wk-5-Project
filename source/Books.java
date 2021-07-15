@@ -11,17 +11,16 @@ public class Books {
     private int totalStock;
     private double price;
     private String description;
-    private HashMap<Integer,Books> bookMap = new HashMap<>();
 
-    public Books(int i, String ISBN, String title, String author, int checkOutQty, int totalStock, double price, String description) {
-        this.id = i;
-        this.ISBN = ISBN;
-        this.title = title;
-        this.author = author;
-        this.checkOutQty = checkOutQty;
-        this.totalStock = totalStock;
-        this.price = price;
-        this.description = description;
+    public Books(int idOfBook, String bookISBN, String bookTitle, String bookAuthor, int bookCheckOutQty, int bookTotalStock, double bookPrice, String bookDescription) {
+        this.id = idOfBook;
+        this.ISBN = bookISBN;
+        this.title = bookTitle;
+        this.author = bookAuthor;
+        this.checkOutQty = bookCheckOutQty;
+        this.totalStock = bookTotalStock;
+        this.price = bookPrice;
+        this.description = bookDescription;
     }
 
 
@@ -29,25 +28,14 @@ public class Books {
         System.out.println("\t\t\t\tSHOWING ALL BOOKS\n");
         List<Books> booksList = FileAccess.getBooks();
 
-        for (Books k : booksList) bookMap.put(booksList.indexOf(k),k);
-        bookMap.forEach((key,value)-> System.out.println("Key: " + key + " " + value.title));
+        for (Books k : booksList) System.out.println("No.: " + k.getID() + " " + k.title);
     }
-
-//    public void searchByAuthorName(){
-//        Scanner input = new Scanner(System.in);
-//        System.out.println("\t\t\t\tSEARCH BY AUTHOR'S NAME");
-//        input.nextLine();
-//        System.out.println("Enter Author Name:");
-//        String authorName = input.nextLine();
-//
-//        // check against the books.csv file
-//    }
 
     public boolean isAvailable(int keyNo){
         // Lookup the keyNo in the file to get the qty
         // if book qty > 0 then return true
-        if(bookMap.containsKey(keyNo) && bookMap.get(keyNo).getAvailableAmount() > 0){
-            System.out.println("Book available is " + bookMap.get(keyNo).getAvailableAmount());
+        if(id == keyNo && getAvailableAmount() > 0){
+            System.out.println("Book available is " + getAvailableAmount());
             return true;
         }
 
@@ -67,13 +55,14 @@ public class Books {
 
         if(isAvailable){
             // reduce the quantity of that book in the file using the isbnNo
+            setCheckOutQty();
             System.out.println("Book checked out successfully.");
         } else {
             System.out.println("Key is invalid for book.");
         }
     }
 
-    public int getId() {
+    public int getID() {
         return id;
     }
 
@@ -109,8 +98,8 @@ public class Books {
         return getTotalStock() - getCheckOutQty();
     }
 
-    public void setCheckOutQty(int checkOutQty) {
-        this.checkOutQty = checkOutQty;
+    public void setCheckOutQty() {
+        this.checkOutQty += 1;
     }
 
 }

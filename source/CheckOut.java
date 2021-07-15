@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CheckOut {
@@ -7,16 +5,12 @@ public class CheckOut {
     private List<Books> totalInventory = FileAccess.getBooks();
     private int InventoryQty;
     private int CheckedOutQty;
-    private HashMap<UserAccounts, Books> checkOutMap;
+    //private HashMap<UserAccounts, Books> checkOutMap;
 
     //this method will return the books available for checkout
     public void getInventory(){
         List<Books> tempInventory = totalInventory;
-        for(Books i: tempInventory){
-            if(i.getAvailableAmount()==0){
-                tempInventory.remove(i);
-            }
-        }
+        tempInventory.removeIf(i -> i.getAvailableAmount() == 0);
         System.out.println("The following titles are available for checkout: ");
 
         for(Books i: tempInventory){
@@ -54,8 +48,6 @@ public class CheckOut {
     }
 
     public void checkOut(Books book){
-
-
 
     }
 
