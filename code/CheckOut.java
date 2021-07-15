@@ -4,43 +4,57 @@ import java.util.List;
 
 public class CheckOut {
 
-    private List<Books> CheckedOut;
+    private List<Books> totalInventory = FileAccess.getBooks();
     private int InventoryQty;
     private int CheckedOutQty;
     private HashMap<UserAccounts, Books> checkOutMap;
 
     //this method will return the books available for checkout
-    public List getInventory(){
-        List<Books> inventory = new ArrayList<>();
+    public void getInventory(){
+        List<Books> tempInventory = totalInventory;
+        for(Books i: tempInventory){
+            if(i.getAvailableAmount()==0){
+                tempInventory.remove(i);
+            }
+        }
+        System.out.println("The following titles are available for checkout: ");
 
-        inventory = FileAccess.getBooks();
-
-        inventory.removeAll(CheckedOut);
-
-        return inventory;
+        for(Books i: tempInventory){
+            System.out.println(i.getTitle());
+        }
     }
 
 
     //this might belong in User class
     public String validUser(){
-
+        //if user is not violating terms (certain number of books & none over due)
         return "User is eligible for check out.";
     }
 
 
     public Boolean isAvailable(){
-        if(InventoryQty>CheckedOutQty)
-            return true;
-        else
-            return false;
+        List<Books> tempInventory = totalInventory;
+        for(Books i: tempInventory)
+            if(i.getAvailableAmount()==0)
+                return true;
+
+        return false;
     }
 
     //returns the number of this book available for checkout
     public String getAvailability(String ISBN) {
-        return  "Copies available: " + (InventoryQty - CheckedOutQty);
+        List<Books> tempList = FileAccess.getBooks();
+        int available = 0;
+        for(Books i: tempList) {
+            if (i.getISBN().equals(ISBN)){
+               available = (i.getTotalStock() - i.getCheckOutQty());
+            }
+        }
+                return  "Copies available: " + available;
     }
 
     public void checkOut(Books book){
+
 
 
     }
