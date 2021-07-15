@@ -1,59 +1,46 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.IOException;
+import java.util.List;
 
-public class UserAccounts {
-
-
-    private ArrayList <UserAccounts>allUsers = new ArrayList<>();
+public class Users {
+    //private ArrayList <UserAccounts>allUsers = new ArrayList<>();
+    private String email;
+    private String password;
     private String firstName ;
     private String lastName;
-    private String address;
-    private String password;
-    private String email;
+    private List<Integer> booksCheckedOut;
 
-    public UserAccounts(String firstName, String lastName, String address,String email,String password){
+    public Users(String email, String password, String firstName, String lastName, List<Integer> userBooksCheckedOut) {
+        setEmail(email);
+        setPassword(password);
         setFirstName(firstName);
         setLastName(lastName);
-        setAddress(address);
-        setPassword(password);
-        setEmail(email);
-
-
+        setBooksCheckedOut(userBooksCheckedOut);
     }
 
-    public UserAccounts(){
-
-
-
+    private void setBooksCheckedOut(List<Integer> booksCheckedOut) {
+        this.booksCheckedOut = booksCheckedOut;
     }
 
     public void setFirstName(String firstName){
         this.firstName = firstName;
+    }
 
-    }
     public void setLastName(String lastName){
-            this.lastName=lastName;
-    }
-    public void setAddress(String address){
-            this.address=address;
+            this.lastName= lastName;
     }
 
     public void setEmail(String email){
         this.email = email;
-
     }
 
     public String getFirstName(){
         return firstName;
     }
+
     public String getLastName(){
         return lastName;
     }
 
-    public String getAddress(){
-        return address;
-    }
     public String getPassword(){
         return password;
     }
@@ -63,20 +50,18 @@ public class UserAccounts {
     }
 
     public void setPassword(String password){
-        this.password=password;
-    }
-    public ArrayList<UserAccounts> getAllUsers(){
-        return allUsers;
-
+        this.password = password;
     }
 
-    public void AddUserToArray(UserAccounts user){
+    public void AddUserToArray(Users user) throws IOException {
+        List<Users> allUsers = FileAccess.getUsers();
         allUsers.add(user);
+        FileAccess.setUsers(allUsers);
     }
 
     public static void ValidateUser(String emailAddress,String passwordChk){
-            UserAccounts checkingUser = new UserAccounts();
-            for(var user : checkingUser.getAllUsers()){
+            List<Users> checkingUser = FileAccess.getUsers();
+            for(var user : checkingUser){
                 if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
                     System.out.println(user);
                 }
@@ -85,19 +70,19 @@ public class UserAccounts {
                     System.out.println("You have entered the wrong email or password");
                 }
             }
-
     }
-
-
 
     @Override
     public String toString() {
         return "UserAccounts{" +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
-                ", address='" + address + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 '}';
+    }
+
+    public List<Integer> getBooksCheckedOut() {
+        return booksCheckedOut;
     }
 }
