@@ -1,1 +1,4 @@
-admin@whatever.com, password, first, last, "1,4,5,27"
+admin@whatever.com,/password,/first,/last,/1,4,5,27
+f12@whatever.com,/pas2sword,/first1,/last1,/78,44
+d123@whatever.com,/passw235ord,/first2,/last2,/8,17,22
+g51@whatever.com,/pass56word,/first3,/last3,/62

@@ -35,7 +35,7 @@ public class FileAccess {
             StringBuilder lineToWrite = new StringBuilder();
             lineToWrite.append(line.getId()).append(",/").append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription());
             System.out.println(lineToWrite);
-            writeToFile.write(String.valueOf(lineToWrite)+"\n");
+            writeToFile.write(lineToWrite +"\n");
             writeToFile.flush();
         }
     }
@@ -46,9 +46,11 @@ public class FileAccess {
         try (BufferedReader readThisFile = new BufferedReader(new FileReader(String.valueOf(userAccountLocation)))) {
             String userLine;
             while((userLine = readThisFile.readLine())!= null) {
-                String[] user = userLine.split(",");
-                List<String> booksCheckedOut = Arrays.asList(user[4].split(","));
-                userList.add(new Users(user[0], user[1], user[2], user[3], booksCheckedOut));
+                String[] user = userLine.split(",/");
+                String[] booksCheckedOut = user[4].split(",");
+                List<Integer> booksCheckedOutIDs = new ArrayList<>();
+                for(String bookID : booksCheckedOut) booksCheckedOutIDs.add(Integer.parseInt(bookID));
+                userList.add(new Users(user[0], user[1], user[2], user[3], booksCheckedOutIDs));
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -59,18 +61,28 @@ public class FileAccess {
 
     public static void setUsers(List<Users> userList) throws IOException {
         users = userList;
-        FileWriter writeToFile = new FileWriter(String.valueOf(userAccountLocation));
-        StringBuilder lineToWrite = new StringBuilder();
+        FileWriter writeToFile = new FileWriter(String.valueOf(userAccountLocation), true);
+        String booksInSetUsers = "";
         for (Users line : userList) {
-            lineToWrite.append(line.getEmail()).append(",").append(line.getPassword()).append(",") .append(line.getFirstName()).append(",").append(line.getLastName()).append(",").append(line.getBooksCheckedOut()).append("\n");
-            //System.out.println(lineToWrite);
+            StringBuilder lineToWrite = new StringBuilder();
+            for(int itemInBooksInSetUsers : line.getBooksCheckedOut()) {
+                booksInSetUsers = itemInBooksInSetUsers+ ",";
+            }
+            lineToWrite.append(line.getEmail()).append(",/").append(line.getPassword()).append(",/") .append(line.getFirstName()).append(",/").append(line.getLastName()).append(",/").append(booksInSetUsers).append("\n");
+            System.out.println(lineToWrite);
             writeToFile.write(String.valueOf(lineToWrite));
+            writeToFile.flush();
         }
     }
 
 
 
     public static void main(String[] args) throws IOException {
+
+        List<Users> userList = getUsers();
+        for(Users a : getUsers()) System.out.println(a.getBooksCheckedOut());
+        setUsers(userList);
+
         /*
         List<Books> bookList = getBooks();
         String lookMeUp = "978-0865165601";
@@ -90,6 +102,7 @@ public class FileAccess {
 
         System.out.println("=============================");
 
+
         for (Books i : bookList) {
             for (String j : manyISBN) {
                 if (i.getISBN().equals(j))
@@ -98,7 +111,7 @@ public class FileAccess {
            }
         }
 
-        */
+*/
         getBooks();
         setBooks(bookList);
 

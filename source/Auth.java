@@ -91,7 +91,7 @@ public class Auth {
             }
         }
         while (!isPasswordValid) {
-            while (!password.equals(passwordChk) || password.length() == 0 || passwordChk.length() == 0) {
+            while (!password.equals(passwordChk) || password.length() == 0) {
                 System.out.println(" Please enter your password,it must be at least 6 characters long" +
                         " and contain one capital letter and one of these special characters @#$%^&+=");
                 password = input.nextLine();
@@ -114,7 +114,7 @@ public class Auth {
             System.out.println("You left a space empty try again");
             signUp();
         } else {
-            List<String> booksCheckedOut = new ArrayList<>();
+            List<Integer> booksCheckedOut = new ArrayList<>();
             CreateUser(email,password, firstName, lastName,booksCheckedOut);
         }
     }
@@ -141,7 +141,7 @@ public class Auth {
 
     }
 
-    public void CreateUser(String email, String password, String firstName, String lastName, List<String> booksCheckedOut) throws IOException {
+    public void CreateUser(String email, String password, String firstName, String lastName, List<Integer> booksCheckedOut) throws IOException {
 
         Users name = new Users(email, password, firstName, lastName, booksCheckedOut);
         name.AddUserToArray(name);

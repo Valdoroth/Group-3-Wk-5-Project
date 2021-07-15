@@ -7,20 +7,17 @@ public class Users {
     private String password;
     private String firstName ;
     private String lastName;
-    private List<String> booksCheckedOut;
+    private List<Integer> booksCheckedOut;
 
-    public Users(){
-    }
-
-    public Users(String email, String password, String firstName, String lastName, List<String> booksCheckedOut) {
+    public Users(String email, String password, String firstName, String lastName, List<Integer> userBooksCheckedOut) {
         setEmail(email);
         setPassword(password);
         setFirstName(firstName);
         setLastName(lastName);
-        setBooksCheckedOut(booksCheckedOut);
+        setBooksCheckedOut(userBooksCheckedOut);
     }
 
-    private void setBooksCheckedOut(List<String> booksCheckedOut) {
+    private void setBooksCheckedOut(List<Integer> booksCheckedOut) {
         this.booksCheckedOut = booksCheckedOut;
     }
 
@@ -29,7 +26,7 @@ public class Users {
     }
 
     public void setLastName(String lastName){
-            this.lastName=lastName;
+            this.lastName= lastName;
     }
 
     public void setEmail(String email){
@@ -53,7 +50,7 @@ public class Users {
     }
 
     public void setPassword(String password){
-        this.password=password;
+        this.password = password;
     }
 
     public void AddUserToArray(Users user) throws IOException {
@@ -85,7 +82,7 @@ public class Users {
                 '}';
     }
 
-    public List<String> getBooksCheckedOut() {
+    public List<Integer> getBooksCheckedOut() {
         return booksCheckedOut;
     }
 }
