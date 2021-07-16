@@ -32,6 +32,7 @@ public class Auth {
         }
         if (action.equalsIgnoreCase("L")) {
             login();
+
         } else {
             signUp();
         }
@@ -55,7 +56,7 @@ public class Auth {
             if (!passWordValidator(password)) {
                 System.out.println(" Password invalid please try again");
             } else if (passWordValidator(password)) {
-                Users.validateUser(email, password);
+             Users.validateUser(email, password);
             }
 
         }
@@ -112,8 +113,9 @@ public class Auth {
             signUp();
         } else {
             List<Integer> booksCheckedOut = new ArrayList<>();
-            Users.createUser(email,password, firstName, lastName,booksCheckedOut);
+          Users.createUser(email,password, firstName, lastName,booksCheckedOut);
         }
+
     }
 
     public boolean validateEmail(String email) {

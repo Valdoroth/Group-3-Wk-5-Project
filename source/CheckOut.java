@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.Scanner;
 
 public class CheckOut {
 
@@ -26,10 +27,10 @@ public class CheckOut {
     }
 
 
-    public Boolean isAvailable(){
+    public Boolean isAvailable(int keyNo){
         List<Books> tempInventory = totalInventory;
         for(Books i: tempInventory)
-            if(i.getAvailableAmount()==0)
+            if(i.getAvailableAmount() > 0)
                 return true;
 
         return false;
@@ -47,14 +48,30 @@ public class CheckOut {
                 return  "Copies available: " + available;
     }
 
-    public void checkOut(Books book){
+//    public void checkOut(int bookID, String email){
+//        FileAccess.bookList.forEach(book -> book.getID());
+//    }
 
-    }
+    public void checkOutBook(){
+        Books.showAllBooks();
+        System.out.println("=================");
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter Key No to for the selected book to be Checked Out.");
+        int keyNo = input.nextInt();
 
-    //returns book info for the titles this user has checked out. Should be in user class?
-    public String hasCheckedOut() {
+        boolean isAvailable = isAvailable(keyNo);
 
-        return "You currently have these titles out: ";
+        if(isAvailable){
+            // reduce the quantity of that book in the file using the bookID
+            Books.setCheckOutQty();
+            Users.updateCurrentUserBooks(keyNo);
+            System.out.println("Book checked out successfully.");
+        } else {
+            System.out.println("Key is invalid for book.");
+        }
+
+
+
     }
 
 
