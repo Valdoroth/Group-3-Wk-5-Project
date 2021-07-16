@@ -8,7 +8,7 @@ public class Books {
     private String ISBN;
     private String title;
     private String author;
-    private int checkOutQty;
+    private static int checkOutQty;
     private int totalStock;
     private double price;
     private String description;
@@ -18,14 +18,14 @@ public class Books {
         this.ISBN = bookISBN;
         this.title = bookTitle;
         this.author = bookAuthor;
-        this.checkOutQty = bookCheckOutQty;
+        checkOutQty = bookCheckOutQty;
         this.totalStock = bookTotalStock;
         this.price = bookPrice;
         this.description = bookDescription;
     }
 
 
-    public void showAllBooks(){
+    public static void showAllBooks(){
         System.out.println("\t\t\t\tSHOWING ALL BOOKS\n");
         List<Books> booksList = FileAccess.getBooks();
 
@@ -106,8 +106,9 @@ It'll check that the key is valid or not.
         return getTotalStock() - getCheckOutQty();
     }
 
-    public void setCheckOutQty() {
-        this.checkOutQty += 1;
+
+    public static void setCheckOutQty() {
+        checkOutQty += 1;
     }
 
     ///////////////////////////// TEST THIS CLASS METHODS HERE ////////////////////////////////////////
