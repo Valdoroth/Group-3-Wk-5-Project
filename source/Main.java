@@ -7,39 +7,48 @@ public class Main {
 
         startApplication();
         menuScreen();
-
         boolean quit = false;
         Scanner scanner = new Scanner(System.in);
+
         while(!quit){
-            System.out.println("\n Enter action: (0 to show available actions)");
-            int action = scanner.nextInt();
-            scanner.nextLine();
 
-            switch(action){
-                case 0:
-                    menuScreen();
-                    break;
-                case 1:
-                    // Show all books
-                    Books.showAllBooks();
-                    break;
-                case 2:
-                    // Checkout
-                    CheckOut checkout = new CheckOut();
-                    checkout.checkOutBook();
-                    break;
-                case 3:
-                    //
-                    break;
-                case 4:
-                    System.out.println("Logging out");
-                    quit = true;
-                    break;
+            int action;
+
+            try {
+                action = scanner.nextInt();
+
+                switch(action){
+                    case 0:
+                        menuScreen();
+                        break;
+                    case 1:
+                        // Show all books
+                        Books.showAllBooks();
+                        break;
+                    case 2:
+                        // Checkout
+                        CheckOut checkout = new CheckOut();
+                        checkout.checkOutBook();
+                        break;
+                    case 3:
+                        //
+                        break;
+                    case 4:
+                        System.out.println("Logging out");
+                        quit = true;
+                        scanner.close();
+                        break;
+                }
+            }catch(Exception e){
+                System.out.println("Enter valid number");
+                menuScreen();
+                scanner.nextLine();
             }
-        }
-        scanner.close();
-    }
+            System.out.println("\n Enter action: ");
 
+        }
+
+    }
 
 
     public static void startApplication() throws IOException {
