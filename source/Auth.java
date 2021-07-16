@@ -35,7 +35,6 @@ public class Auth {
         } else {
             signUp();
         }
-
     }
 
     public void login() {
@@ -57,9 +56,7 @@ public class Auth {
             } else if (passWordValidator(password)) {
                 Users.validateUser(email, password);
             }
-
         }
-
     }
 
 
@@ -89,8 +86,10 @@ public class Auth {
         }
         while (!isPasswordValid) {
             while (!password.equals(passwordChk) || password.length() == 0) {
-                System.out.println(" Please enter your password,it must be at least 6 characters long" +
-                        " and contain one capital letter and one of these special characters @#$%^&+=");
+                System.out.println("""
+                        Please enter your password,it must be at least 6 characters long 
+                        and contain one capital letter
+                        and one of these special characters @#$%^&+= """);
                 password = input.nextLine();
                 System.out.println(" Please re-enter your password");
                 passwordChk = input.nextLine();
@@ -119,7 +118,7 @@ public class Auth {
     public boolean validateEmail(String email) {
         boolean isValidEmail;
 
-        isValidEmail = email.substring(email.length() - 4).equals(".com") || email.length() >= 8 || !email.contains("@");
+        isValidEmail = email.endsWith(".com") || email.length() >= 8 || !email.contains("@");
         return isValidEmail;
     }
 
