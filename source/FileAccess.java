@@ -59,15 +59,15 @@ public class FileAccess {
         return userList;
     }
 
-    public static void setUsers(List<Users> userList) throws IOException {
-        users = userList;
+    public static void setUsers(List<Users> userListInput) throws IOException {
+        users = userListInput;
         FileWriter writeToFile = new FileWriter(String.valueOf(userAccountLocation));
 
-        for (Users line : userList) {
-            String booksInSetUsers = "";
+        for (Users line : userListInput) {
+            StringBuilder booksInSetUsers = new StringBuilder();
             StringBuilder lineToWrite = new StringBuilder();
             for(int itemInBooksInSetUsers : line.getBooksCheckedOut()) {
-                booksInSetUsers += itemInBooksInSetUsers+ ",";
+                booksInSetUsers.append(itemInBooksInSetUsers).append(",");
             }
             lineToWrite.append(line.getEmail()).append("|").append(line.getPassword()).append("|") .append(line.getFirstName()).append("|").append(line.getLastName()).append("|").append(booksInSetUsers).append("\n");
             //System.out.println(lineToWrite);
@@ -77,7 +77,7 @@ public class FileAccess {
     }
 
 
-
+    ///////////////////////////// TEST THIS CLASS METHODS HERE ////////////////////////////////////////
     public static void main(String[] args) throws IOException {
 
         List<Users> userList = getUsers();

@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -35,7 +36,7 @@ public class Books {
         // Lookup the keyNo in the file to get the qty
         // if book qty > 0 then return true
         if(id == keyNo && getAvailableAmount() > 0){
-            System.out.println("Book available is " + getAvailableAmount());
+            System.out.println("Book(s) quantity available is " + getAvailableAmount());
             return true;
         }
 
@@ -43,17 +44,24 @@ public class Books {
         return false;
     }
 
-
+/*
+This method displays all books in the system and asks user what book they want to check out.
+It'll check that the key is valid or not.
+ */
     public void checkOutBook(){
         showAllBooks();
         System.out.println("=================");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter Key No to for the selected book to be Checked Out.");
-        int keyNo = input.nextInt();
+        int keyNo = 0;
+        try {
+            keyNo = input.nextInt();
+        } catch (Exception e) {
+            System.out.println("Invalid key");
+        }
 
-        boolean isAvailable = isAvailable(keyNo);
-
-        if(isAvailable){
+        boolean bookIsAvailable = isAvailable(keyNo);
+        if(bookIsAvailable){
             // reduce the quantity of that book in the file using the isbnNo
             setCheckOutQty();
             System.out.println("Book checked out successfully.");
@@ -102,4 +110,11 @@ public class Books {
         this.checkOutQty += 1;
     }
 
+    ///////////////////////////// TEST THIS CLASS METHODS HERE ////////////////////////////////////////
+    public static void main(String[] args) throws IOException {
+        List<Books> bookTestCheckInList = FileAccess.getBooks();
+        for (Books a : bookTestCheckInList) {
+
+        }
+    }
 }
