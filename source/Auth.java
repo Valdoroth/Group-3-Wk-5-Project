@@ -37,15 +37,17 @@ public class Auth {
 
     public void login() {
         boolean isValidated = false;
+        Scanner input = new Scanner(System.in);
         while (!isValidated) {
 
             System.out.println("Enter your Email Address");
-            email = "admin@whatever.com"; //input.nextLine();
+            email = input.nextLine();
             isValidated = validateEmail(email);
         }
+        //input.close();
         while (!passWordValidator(password)) {
             System.out.println("Enter your password");
-            password = "P@ssw0rd"; //input.nextLine();
+            password = input.nextLine();
             passWordValidator(password);
             if (!passWordValidator(password)) {
                 System.out.println(" Password invalid please try again");
