@@ -3,9 +3,9 @@ import java.nio.file.Path;
 import java.util.*;
 
 public class FileAccess {
-    private static final Path bookLocation = Path.of(System.getProperty("user.dir")+"/resources/booksTest.csv");
+    private static final Path bookLocation = Path.of(System.getProperty("user.dir")+"/testResources/booksTest.csv");
     //private static final Path bookLocation2 = Path.of(System.getProperty("user.dir")+"/resources/booksTestWrite.csv");
-    private static final Path userAccountLocation = Path.of(System.getProperty("user.dir")+"/resources/userAccountsTest.txt");
+    private static final Path userAccountLocation = Path.of(System.getProperty("user.dir")+"/testResources/userAccountsTest.txt");
     public static List<Books> bookList;
     public static List<Users> users;
 
@@ -32,10 +32,8 @@ public class FileAccess {
         bookList = booksUpdated;
         FileWriter writeToFile = new FileWriter(String.valueOf(bookLocation));
         for (Books line : bookList) {
-            StringBuilder lineToWrite = new StringBuilder();
-            lineToWrite.append(line.getID()).append(",/").append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription());
-            //System.out.println(lineToWrite);
-            writeToFile.write(lineToWrite +"\n");
+            writeToFile.write(line.getID() + ",/" + line.getISBN() + ",/" + line.getTitle() + ",/" + line.getAuthor() + ",/" + line.getCheckOutQty() + ",/" + line.getTotalStock() + ",/" + line.getPrice() + ",/" + line.getDescription() + "\n"
+            );
             writeToFile.flush();
         }
     }

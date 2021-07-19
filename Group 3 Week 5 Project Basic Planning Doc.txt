@@ -304,3 +304,5 @@ Classes:
 Future updates/changes:
 - correct the file writing to actually update values in the file correctly.
 - add a UI frontend.
+- add search functions
+- add author - book index
