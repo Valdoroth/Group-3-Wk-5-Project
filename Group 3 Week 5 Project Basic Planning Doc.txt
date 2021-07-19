@@ -3,7 +3,7 @@ Members:
 Stephen Hoffler -- Project Lead, Documentation, File Access/Management
 Jennifer Molton -- Check Out
 Andrew Pham -- Check In
-Joenathan -- User Accounts/Authorization
+Joenathan "Jay" -- User Accounts/Authorization
 
 
 
@@ -271,7 +271,7 @@ Classes:
             * String[] user = lineRead.split(“|”) (bar delimiter)
             * String[] booksCheckedOut = user[4].split(“,”) (comma delimiter)
                * For each bookID in booksCheckedOut add the Integer.parseInt(bookID) and add to List<Integer> booksCheckedOutID
-            * Add new Users(user[0] to user[3] and add the List<Integer>) to userList
+            * Add new Users(user[0] - user[3] and add the List<Integer>) to userList
             * FileAccess.users = userList
       * public static void setUsers(List<Users> userListInput)
          * Make the users private variable in this class as the userListInput
@@ -301,4 +301,6 @@ Classes:
       * setUser() - if password and username matches, set current user as input items.
 
 
-Future updates:
+Future updates/changes:
+- correct the file writing to actually update values in the file correctly.
+- add a UI frontend.
