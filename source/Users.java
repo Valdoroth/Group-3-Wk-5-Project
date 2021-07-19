@@ -3,7 +3,6 @@ import java.util.List;
 
 public class Users {
     private static List<Integer> booksCheckedOut;
-    //private ArrayList <UserAccounts>allUsers = new ArrayList<>();
     private final String email;
     private final String password;
     private final String firstName ;
@@ -15,7 +14,7 @@ public class Users {
         this.email = emailInput;
         this.password = passwordInput;
         this.firstName = firstNameInput;
-        this.lastName =lastNameInput;
+        this.lastName = lastNameInput;
         booksCheckedOut = userBooksCheckedOutInput;
     }
 
@@ -36,12 +35,12 @@ public class Users {
     }
 
     public static void validateUser(String emailAddress, String passwordChk){
-        List<Users> checkingUser = FileAccess.getUsers();
+        List<Users> checkingUser = FileAccess.users;
         for(var user : checkingUser){
             if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
                 System.out.println("Successfully logged in.");
-                System.out.println("RETURNING " + user.email);
                 currentUser = user.email;
+                break;
             }
             else
             {
@@ -51,6 +50,7 @@ public class Users {
         }
     }
 
+    /*
     @Override
     public String toString() {
         return "UserAccounts{" +
@@ -60,6 +60,7 @@ public class Users {
                 ", email='" + email + '\'' +
                 '}';
     }
+    */
 
     public static Users createUser(String emailCreate, String passwordCreate, String firstNameCreate, String lastNameCreate, List<Integer> booksCheckedOutCreate) throws IOException {
         Users name = new Users(emailCreate, passwordCreate, firstNameCreate, lastNameCreate, booksCheckedOutCreate);
@@ -79,12 +80,10 @@ public class Users {
         return booksCheckedOut;
     }
 
-    public static void updateCurrentUserBooks(int bookIdIAmCheckingOut) {
+    public static void addToCurrentUserBooks(int bookIdIAmCheckingOut) {
         getBooksCheckedOut().add(bookIdIAmCheckingOut);
         booksCheckedOut = getBooksCheckedOut();
         hasCheckedOut();
-
-
     }
 
     //returns book info for the titles this user has checked out. Should be in user class?
