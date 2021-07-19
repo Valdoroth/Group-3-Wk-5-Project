@@ -1,66 +1,60 @@
-import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class CheckOut {
+    private final List<Books> totalInventory = FileAccess.getBooks();
 
-    private List<Books> totalInventory = FileAccess.getBooks();
-    private int inventoryQty;
-    private int checkedOutQty;
-    //private HashMap<UserAccounts, Books> checkOutMap;
+    public CheckOut(){
+    }
 
     //this method will return the books available for checkout
-    public void getInventory() {
+    public void getInventory(){
         List<Books> tempInventory = totalInventory;
         tempInventory.removeIf(i -> i.getAvailableAmount() == 0);
         System.out.println("The following titles are available for checkout: ");
 
-        for (Books i : tempInventory) {
+        for(Books i: tempInventory){
             System.out.println(i.getTitle());
         }
     }
 
-    //this might belong in User class
-    public String validUser() {
-        //if user is not violating terms (certain number of books & none over due)
-        return "User is eligible for check out.";
+    public Boolean isAvailable(int keyNo){
+        boolean result = false;
+        for(Books i: totalInventory) {
+            result = i.getID() == keyNo && i.getAvailableAmount() > 0;
+        } return result;
     }
 
-    public Boolean isAvailable() {
-        List<Books> tempInventory = totalInventory;
-        for (Books i : tempInventory)
-            if (i.getAvailableAmount() == 0)
-                return true;
+    public void checkOutBook(){
+        Books.showAllAvailableBooks();
+        System.out.println("=================");
+        Scanner input = new Scanner(System.in);
+        System.out.print("Enter book number to check out that book.\n");
+        int keyNo = input.nextInt();
 
-        return false;
-    }
+        boolean isAvailable = isAvailable(keyNo);
 
-    //returns the number of this book available for checkout
-    public String getAvailability(String ISBN) {
-        List<Books> tempList = FileAccess.getBooks();
-        int available = 0;
-        for (Books i : tempList) {
-            if (i.getISBN().equals(ISBN)) {
-                available = (i.getTotalStock() - i.getCheckOutQty());
+        if(isAvailable){
+            // reduce the quantity of that book in the file using the bookID
+            for (Books bookListForCheckOut : FileAccess.bookList) {
+                if (bookListForCheckOut.getID() == keyNo) bookListForCheckOut.setCheckOutQty(1);
             }
+            //Books.setCheckOutQty(1);
+            Users.addToCurrentUserBooks(keyNo);
+            System.out.println("Book checked out successfully.");
+            checkAnotherOut();
+        } else {
+            System.out.println("Key is invalid for book.");
         }
-        return "Copies available: " + available;
     }
 
-    public void checkOut(Books book) {
-
-    }
-
-    //returns book info for the titles this user has checked out. Should be in user class?
-    public String hasCheckedOut() {
-
-        return "You currently have these titles out: ";
-    }
-
-    ///////////////////////////// TEST THIS CLASS METHODS HERE ////////////////////////////////////////
-    public static void main(String[] args) throws IOException {
-        List<Books> bookTestCheckoutList = FileAccess.getBooks();
-        for (Books a : bookTestCheckoutList) {
-            System.out.println(a.getCheckOutQty());
-        }
+    private int checkAnotherOut() {
+        Scanner response = new Scanner(System.in);
+        System.out.println("Do you want to check another book out? (y/n)");
+        int answer;
+        String responseValue = response.next();
+        if (responseValue.equals("y")) answer = 2;
+        else answer = 0;
+        return answer;
     }
 }

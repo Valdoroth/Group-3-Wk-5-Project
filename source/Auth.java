@@ -6,8 +6,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Auth {
-
-    private Scanner input = new Scanner(System.in);
     private String email;
     private String password;
 
@@ -17,17 +15,16 @@ public class Auth {
     }
 
     public void start() throws IOException {
+        Scanner input = new Scanner(System.in);
         String action = "";
-        System.out.println("Welcome to the V.A.J.J. Library System");
+        System.out.println("Welcome to the V.A.J.J. Library System \n Please enter L for Login or S for Signup ");
         while (!action.equalsIgnoreCase("L") && !action.equalsIgnoreCase("S")) {
-            System.out.println(" Please enter L for Login or S for Signup ");
             action = input.nextLine();
 
             if (!action.equalsIgnoreCase("L") && !action.equalsIgnoreCase("S")) {
                 System.out.println("Check your entry and try again");
             } else {
-                System.out.println("Thank you");
-                System.out.println();
+                System.out.println("Thank you\n");
             }
         }
         if (action.equalsIgnoreCase("L")) {
@@ -35,47 +32,48 @@ public class Auth {
         } else {
             signUp();
         }
+        //input.close();
     }
 
     public void login() {
         boolean isValidated = false;
-
+        //Scanner input = new Scanner(System.in);
         while (!isValidated) {
+
             System.out.println("Enter your Email Address");
-            email = input.nextLine();
+            email = "admin@whatever.com"; //input.nextLine();
             isValidated = validateEmail(email);
         }
-
+        //input.close();
         while (!passWordValidator(password)) {
             System.out.println("Enter your password");
-            password = input.nextLine();
+            password = "P@ssw0rd"; //input.nextLine();
             passWordValidator(password);
-            System.out.println(passWordValidator(password));
             if (!passWordValidator(password)) {
                 System.out.println(" Password invalid please try again");
             } else if (passWordValidator(password)) {
                 Users.validateUser(email, password);
             }
         }
+        //input.close();
     }
 
 
     private void signUp() throws IOException {
+        Scanner input = new Scanner(System.in);
         String firstName;
         String lastName;
-        //String address = "";
         boolean isEmailValid = false;
         boolean isPasswordValid = false;
         String passwordChk = "";
 
-        System.out.println();
-        System.out.println("Welcome New User ");
-        System.out.println("Please enter your first name");
+        System.out.println("""
+                                              
+                Welcome New User 
+                Please enter your first name""");
         firstName = input.nextLine();
         System.out.println("Please enter your last Name");
         lastName = input.nextLine();
-        //System.out.println(" Please enter your address");
-        //address = input.nextLine();
         while (!isEmailValid) {
             System.out.println(" Please enter your Email Address");
             email = input.nextLine();
@@ -87,9 +85,9 @@ public class Auth {
         while (!isPasswordValid) {
             while (!password.equals(passwordChk) || password.length() == 0) {
                 System.out.println("""
-                        Please enter your password,it must be at least 6 characters long 
+                        Please enter your password,it must be at least 6 characters long
                         and contain one capital letter
-                        and one of these special characters @#$%^&+= """);
+                        and one of these special characters @#$%^&+=""");
                 password = input.nextLine();
                 System.out.println(" Please re-enter your password");
                 passwordChk = input.nextLine();
@@ -117,7 +115,6 @@ public class Auth {
 
     public boolean validateEmail(String email) {
         boolean isValidEmail;
-
         isValidEmail = email.endsWith(".com") || email.length() >= 8 || !email.contains("@");
         return isValidEmail;
     }

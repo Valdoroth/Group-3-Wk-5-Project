@@ -2,19 +2,20 @@ import java.io.IOException;
 import java.util.List;
 
 public class Users {
-    //private ArrayList <UserAccounts>allUsers = new ArrayList<>();
-    private String email;
-    private String password;
-    private String firstName ;
-    private String lastName;
-    private List<Integer> booksCheckedOut;
+    private static List<Integer> booksCheckedOut;
+    private final String email;
+    private final String password;
+    private final String firstName ;
+    private final String lastName;
+    public static String currentUser;
+
 
     public Users(String emailInput, String passwordInput, String firstNameInput, String lastNameInput, List<Integer> userBooksCheckedOutInput) {
         this.email = emailInput;
         this.password = passwordInput;
         this.firstName = firstNameInput;
-        this.lastName =lastNameInput;
-        this.booksCheckedOut = userBooksCheckedOutInput;
+        this.lastName = lastNameInput;
+        booksCheckedOut = userBooksCheckedOutInput;
     }
 
     public String getFirstName(){
@@ -34,19 +35,22 @@ public class Users {
     }
 
     public static void validateUser(String emailAddress, String passwordChk){
-            List<Users> checkingUser = FileAccess.getUsers();
-            for(var user : checkingUser){
-                if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
-                    System.out.println("Successfully logged in.");
-                }
-                else
-                {
-                    System.out.println("You have entered the wrong email or password");
-                }
+        List<Users> checkingUser = FileAccess.users;
+        for(var user : checkingUser){
+            if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
+                System.out.println("Successfully logged in.");
+                currentUser = user.email;
                 break;
             }
+            else
+            {
+                System.out.println("You have entered the wrong email or password");
+            }
+            break;
+        }
     }
 
+    /*
     @Override
     public String toString() {
         return "UserAccounts{" +
@@ -56,21 +60,41 @@ public class Users {
                 ", email='" + email + '\'' +
                 '}';
     }
+    */
 
-    public static void createUser(String emailCreate, String passwordCreate, String firstNameCreate, String lastNameCreate, List<Integer> booksCheckedOutCreate) throws IOException {
+    public static Users createUser(String emailCreate, String passwordCreate, String firstNameCreate, String lastNameCreate, List<Integer> booksCheckedOutCreate) throws IOException {
         Users name = new Users(emailCreate, passwordCreate, firstNameCreate, lastNameCreate, booksCheckedOutCreate);
         name.addUserToArray(name);
         System.out.println(name);
+        return name;
     }
 
-    public void addUserToArray(Users addedUser) throws IOException {
+    public void addUserToArray(Users user) throws IOException {
         List<Users> allUsers = FileAccess.getUsers();
-        allUsers.add(addedUser);
+        allUsers.add(user);
         FileAccess.setUsers(allUsers);
         FileAccess.getUsers();
     }
 
-    public List<Integer> getBooksCheckedOut() {
+    public static List<Integer> getBooksCheckedOut() {
         return booksCheckedOut;
+    }
+
+    public static void addToCurrentUserBooks(int bookIdIAmCheckingOut) {
+        getBooksCheckedOut().add(bookIdIAmCheckingOut);
+        booksCheckedOut = getBooksCheckedOut();
+        hasCheckedOut();
+    }
+
+    //returns book info for the titles this user has checked out. Should be in user class?
+    public static void hasCheckedOut() {
+        System.out.println("You currently have these titles out: ");
+        for(Books i : FileAccess.bookList){
+            for (int j : booksCheckedOut){
+                if(i.getID() == j){
+                    System.out.println("\t" + i.getID() + ". " + i.getTitle() );
+                }
+            }
+        }
     }
 }
