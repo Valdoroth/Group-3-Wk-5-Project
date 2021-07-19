@@ -9,7 +9,6 @@ public class Users {
     private final String lastName;
     public static String currentUser;
 
-
     public Users(String emailInput, String passwordInput, String firstNameInput, String lastNameInput, List<Integer> userBooksCheckedOutInput) {
         this.email = emailInput;
         this.password = passwordInput;

@@ -1,0 +1,304 @@
+﻿Group 3  Week 5 Project Basic Planning Doc
+Members:
+Stephen Hoffler -- Project Lead, Documentation, File Access/Management
+Jennifer Molton -- Check Out
+Andrew Pham -- Check In
+Joenathan -- User Accounts/Authorization
+
+
+
+
+Github emails for project contributors :
+andrewpham92@gmail.com
+hofflerstephen@gmail.com
+jw1234@rutgers.edu
+molton.jennifer@gmail.com
+
+
+Phase 1: Planning/Resource
+Phase 2: Design
+Phase 3: Coding
+Phase 4: Implementation
+Phase 5: Testing/Release
+
+
+Key: 
+Bold = Core/required
+Normal = Additional/ Probably adding
+Italics = Additional/ extra
+
+
+Idea: Accounting System - Finance or Library Books
+
+
+Features (✩) & High-level design:
+
+
+* Check in
+   * Books in system 
+      * Book ISBNs
+      * Title
+      * Author(s)
+      * Book Status
+         * Number checked out
+         * Number in inventory 
+      * Price 
+      * Description 
+* Check out
+Either Check file and make a list of all that’s CheckedOut != Inventory and get form that list to display,
+-- Or --
+Just get the full list and show another variable that does the below.
+        If(checkedOutQty == inventoryQty) { boolean available = false}
+   * Books in system 
+      * Book ISBNs
+      * Title 
+      * Author(s) 
+      * Book Status
+         * Number CheckedOut 
+         * Number in Inventory
+      * Price
+      * Description
+      * Who checked out
+         * Username
+         * Date
+         * Value of book
+
+
+* Authentication
+   * Check email
+   * Check password
+   * If match, set login user as this user
+* Username
+   * Email
+      * check for @ symbol and last 4 are .XXX
+         * .XXX can be an Enum probably. 
+* Name
+   * First
+      * Limited length?
+   * Last
+* Password
+   * Min length
+   * Max length
+   * Can/Cannot contain what?
+
+
+
+
+* Account System
+
+
+   * Users array of Hash maps 
+* User name String
+* Password String
+* Address String
+* Billing information String
+   * Checked out books
+      * Check-out date
+      * Due date
+      * Value of book
+* File Access
+   * Store List
+      * Users
+      * Books
+      * CheckedOutBooks
+________________
+
+
+Low Level Design:
+* Check in
+   * Books in system (File: <String, String, String, Integer, Integer, Double, String>) (File lines are String with commas)
+      * Book ISBNs <String>
+      * Title <String>
+      * Author(s) <String>
+      * Book Status
+         * Number checked out <Integer> (Will be int -> String)
+         * Number in inventory <Integer> (“”)
+      * Price <Double> (Already in file)
+      * Description <String> (Already in file)
+* Check out
+Either Check file and make a list of all that’s CheckedOut != Inventory and get form that list to display,
+-- Or --
+Just get the full list and show another variable that does the below.
+        If(checkedOutQty == inventoryQty) { boolean available = false}
+   * Books in system (File)
+      * Book ISBNs <String>
+      * Title <String>
+      * Author(s) <String>
+      * Book Status
+         * Number CheckedOut <Integer> (Requires Integer.parseInt())
+         * Number in Inventory <Integer> (Requires Integer.parseInt())
+      * Price <Double> (Already in file)
+      * Description <String> (Already in file)
+      * Who checked out <User<String, Date>>
+         * Username <String>
+         * Date <Date>
+         * Value of book <Double>
+* Account System
+   * Username
+      * Email
+         * check for @ symbol and last 4 are .XXX
+            * .XXX can be an Enum probably. 
+   * Name
+      * First <String>
+         * Limited length? <Integer>
+      * Last <String>
+   * Password
+      * Min length <Integer>
+      * Max length <Integer>
+      * Can/Cannot contain what? <Char>
+   * Checked out books
+      * Check-out date <Date>
+      * Due date <Date>
+      * Value of book <Currency/ Double>
+* File Access
+   * Books <List< Books>>
+   * CheckedOutBooks <Path>
+   * Users <File> from a <List<Users>>
+
+
+
+
+Classes:
+* Books →
+   * Attributes:
+      * ID : (int)
+      * ISBN: (String)
+      * Title: (String)
+      * Author: (String)
+      * CheckedOutQty: (int)
+      * InStockQty: (int)
+      * Price: (Double)
+      * Description: (String)
+   * Constructor: 
+      * This.attribute = variable input;
+   * Methods: 
+      * public void showAllBooks
+         * For each book, print out book ID and title
+      * public searchByAuthorName
+      * public boolean isAvailable(String keyNo)
+         * If bookID = keyNo and some are available, return true
+      * public void checkOutBook() → this will update the qty by looking up the keyNo
+         * Verifies valid key and then runs setCheckOutQty();
+      * public get<Attributes>
+      * public setCheckOutQty()
+         * Updates the checkout quantity increase by one.
+* Users →
+   * Attributes:
+      * Username email (String)
+      * Password (String)
+      * FirstName (String)
+      * LastName (String)
+      * checkedOutBooks (List<Integer>)
+   * Constructor:
+      * Sets each attribute as the fed value
+   * Method: 
+      * getAttribute - simple gets for each attribute
+      * validateUser - takes input email and password
+         * checks list of users for input user
+            * If true, check password of that user
+               * If true, return valid = true
+               * Else break and print out message of why
+      * @Override toString()
+         * Prints out the user info in a specified manner 
+      * createUser(Users values here) - takes input values and creates new user
+         * Users name = new Users(input variable)
+         * name.addUserToArray(name);
+         * Print out the added User item (mostly for validation it works but also doubles to show user their input values)
+      * addUserToArray(User addedUser)
+         * List<Users> allUsers = FileAccess.getUsers();
+         * allUsers.add(addedUser);
+         * FileAccess.getUsers(); This ensures newly added user is reloaded into the current user list
+      * getBooksCheckedOut() List<Integer> 
+         * Returns the User booksCheckedOut list
+      * viewBooksCheckedOut() - displays user’s checked out books
+      * addBook() - add to a user’s checked out books
+      * removeBook() - remove a user’s checked out book(s)
+* CheckIn →
+   * Attributes:
+      * bookToCheckIn (int)
+      * userNameLoggedIn (String)
+   * Constructor: none
+   * Method:
+      * userChecksInBook(int bookCheckInID, String username)
+         * Takes the id  to remove and removes it from the user’s checked out book list based on the username currently logged in
+         * Update User to reduce their list, and setsUsers(), then re-pulls the list, getUsers();
+         * No return needed.
+* CheckOut →
+   * Attributes:
+      * totalInventory = FileAccess.getBooks();
+      * checkedOutQty<int>
+      * inventoryQty<int>
+
+
+   * Constructor: none
+   * Method:
+      * getInventory(): Returns list of books that are available for checkout
+         * Creates a tempInventory list of only available books.
+         * For each book, print the tempInventory list;
+      * validUser(): Boolean - checks if user is able to check out 
+      * isAvailable(): Boolean - returns true if books is in stock false if else
+      * getAvailability(Book): String - returns String object with book info & qty available 
+      * checkOut(Book): Void - updates availability, assigns book to user 
+      * hasCheckedOut(User): String - returns books that user currently has checked out
+      * numberAvailable(Book): Returns how many copies of this book are available 
+      * numberCheckedOut(Book): Returns how many copies of this book are checked out 
+
+
+* FileAccess →
+   * Attributes:
+      * book (Object, see Books class)
+      * bookLocation (Path)
+         * Path bookLocation = Path.of(“resources/books.csv”)
+      * userAccountLocation (Path)
+         * Path userAccountsLocation = Path.of(“resources/userAccounts.txt”)
+   * Methods:
+      * public List<Book> getBooks(bookLocation) 
+         * List<Book> bookList = new Books<>();
+         * for(String i : File.readAllLines(bookLocation);
+            * bookList.add(i.split(“,/”));
+         * return bookList;
+      * public static void setBooks (List<Books> booksUpdated)
+         * bookList = booksUpdated;
+         * FileWriter 
+         * StringBuilder
+            * forEach(Books i: bookList)
+               * Appends each book item together with “,/”
+               * FileWriter writes each line
+               * Flush the FileWriter to reset it’s storage for next line
+      * public static List<Users> getUsers()
+         * List<Users> userList = new ArrayList<>();
+         * BufferedReader reads each line
+            * String[] user = lineRead.split(“|”) (bar delimiter)
+            * String[] booksCheckedOut = user[4].split(“,”) (comma delimiter)
+               * For each bookID in booksCheckedOut add the Integer.parseInt(bookID) and add to List<Integer> booksCheckedOutID
+            * Add new Users(user[0] to user[3] and add the List<Integer>) to userList
+            * FileAccess.users = userList
+      * public static void setUsers(List<Users> userListInput)
+         * Make the users private variable in this class as the userListInput
+         * FileWriter writeToFile = new FileWriter (String.valueof(userAccountLocation)
+            * For each User line in the userListInput
+               * For each int idOfBooksCheckedOut in line,
+                  * Create a String of each book id with comma delimiter
+               * Create a String of each user item as the file line
+               * Write the line to the file
+               * Flush the fileWriter to reset it’s storage for next line
+* Authentication
+   * Attributes:
+      * Users (List<UserAccount>)
+      * Username email (String)
+      * Password (String)
+   * Constructor:
+      * Set attributes as blank values;
+   * Methods:
+      * getUser() - obtains input username from the users list, if none, then invalid
+         * Scanner input
+         * String usernameInput
+         * String passwordInput
+         * String tempUsername - this is the temp compare for pw compare
+         * Try catch
+            * if(passwordInput.equals(Users.get(Users.getIndexOf(usernameInput))) tempUsername = usernameInput
+      * checkPassword() - checks the input password against the pulled up UserAccount object’s password field.
+      * setUser() - if password and username matches, set current user as input items.
+
+
+Future updates:

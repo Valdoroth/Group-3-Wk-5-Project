@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -65,5 +66,13 @@ public class CheckOut {
         if (responseValue.equals("y")) answer = 2;
         else answer = 0;
         return answer;
+    }
+
+    ///////////////////////////// TEST THIS CLASS METHODS HERE ////////////////////////////////////////
+    public static void main(String[] args) throws IOException {
+        List<Books> bookTestCheckOutList = FileAccess.getBooks();
+        for (Books a : bookTestCheckOutList) {
+            System.out.println(a.getTitle());
+        }
     }
 }
