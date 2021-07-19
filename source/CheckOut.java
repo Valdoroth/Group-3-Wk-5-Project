@@ -22,9 +22,11 @@ public class CheckOut {
         boolean result = false;
         for(Books i: totalInventory) {
             if(i.getID() == keyNo) {
-                if (i.getAvailableAmount() > 0) result = true;
+                if (i.getAvailableAmount() > 0) {
+                    result = true;
+                    break;
+                }
             }
-            else result = false;
         } return result;
     }
 
