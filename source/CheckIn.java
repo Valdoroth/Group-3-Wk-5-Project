@@ -10,7 +10,12 @@ public class CheckIn {
     }
 
     public void checkInBook() throws IOException {
-        Users.hasCheckedOut();
+        Users userCheckInBook = null;
+        for(Users u : FileAccess.users) {
+            if(u.getEmail().equals(Users.currentUser)) userCheckInBook = u;
+        }
+        assert userCheckInBook != null;
+        userCheckInBook.hasCheckedOut();
         System.out.println("=================");
         Scanner input = new Scanner(System.in);
         System.out.print("Enter book number to check in that book.\n");
@@ -18,9 +23,9 @@ public class CheckIn {
 
         for (Users userForCheckIn : FileAccess.users) {
             if (userForCheckIn.getEmail().equals(userLoggedIn)) {
-                Users.getBooksCheckedOut().remove(bookToCheckIn);
+                userForCheckIn.getBooksCheckedOut().remove((Integer) bookToCheckIn);
             } else {
-                System.out.println("Key is invalid for book.");
+                System.out.print("");//"Key is invalid for book.");
             }
         }
         System.out.println("Book checked in successfully.");

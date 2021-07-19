@@ -33,19 +33,16 @@ public class Auth {
         } else {
             signUp();
         }
-        //input.close();
     }
 
     public void login() {
         boolean isValidated = false;
-        //Scanner input = new Scanner(System.in);
         while (!isValidated) {
 
             System.out.println("Enter your Email Address");
             email = "admin@whatever.com"; //input.nextLine();
             isValidated = validateEmail(email);
         }
-        //input.close();
         while (!passWordValidator(password)) {
             System.out.println("Enter your password");
             password = "P@ssw0rd"; //input.nextLine();
@@ -56,7 +53,6 @@ public class Auth {
              Users.validateUser(email, password);
             }
         }
-        //input.close();
     }
 
 

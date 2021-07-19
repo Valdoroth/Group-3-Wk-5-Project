@@ -2,7 +2,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Users {
-    private static List<Integer> booksCheckedOut;
+    private List<Integer> booksCheckedOut;
     private final String email;
     private final String password;
     private final String firstName ;
@@ -15,7 +15,7 @@ public class Users {
         this.password = passwordInput;
         this.firstName = firstNameInput;
         this.lastName = lastNameInput;
-        booksCheckedOut = userBooksCheckedOutInput;
+        this.booksCheckedOut = userBooksCheckedOutInput;
     }
 
     public String getFirstName(){
@@ -34,12 +34,17 @@ public class Users {
         return email;
     }
 
+    public List<Integer> getBooksCheckedOut() {
+        return this.booksCheckedOut;
+    }
+
     public static void validateUser(String emailAddress, String passwordChk){
         List<Users> checkingUser = FileAccess.users;
         for(var user : checkingUser){
             if(user.email.equals(emailAddress)&& user.password.equals(passwordChk)){
                 System.out.println("Successfully logged in.");
                 currentUser = user.email;
+                //booksCheckedOut = getBooksCheckedOut();
                 break;
             }
             else
@@ -76,21 +81,17 @@ public class Users {
         FileAccess.getUsers();
     }
 
-    public static List<Integer> getBooksCheckedOut() {
-        return booksCheckedOut;
-    }
-
-    public static void addToCurrentUserBooks(int bookIdIAmCheckingOut) {
+    public void addToCurrentUserBooks(int bookIdIAmCheckingOut) {
         getBooksCheckedOut().add(bookIdIAmCheckingOut);
-        booksCheckedOut = getBooksCheckedOut();
+        this.booksCheckedOut = getBooksCheckedOut();
         hasCheckedOut();
     }
 
     //returns book info for the titles this user has checked out. Should be in user class?
-    public static void hasCheckedOut() {
+    public void hasCheckedOut() {
         System.out.println("You currently have these titles out: ");
         for(Books i : FileAccess.bookList){
-            for (int j : booksCheckedOut){
+            for (int j : this.booksCheckedOut){
                 if(i.getID() == j){
                     System.out.println("\t" + i.getID() + ". " + i.getTitle() );
                 }

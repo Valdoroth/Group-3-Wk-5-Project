@@ -1,6 +1,7 @@
 import java.io.IOException;
 
 public class Run {
+    public static boolean runMe;
 
     public static void startApplication() throws IOException {
         FileAccess.getUsers();
@@ -27,25 +28,28 @@ public class Run {
                 // Show all books
                 Books.showAllBooks();
                 menuScreen();
+                stopRunning("no");
             }
             case 2 -> {
                 // Checkout
                 CheckOut checkout = new CheckOut();
                 checkout.checkOutBook();
+                stopRunning("no");
             }
             case 3 -> {
                 //Check in
                 CheckIn checkInBook = new CheckIn();
                 checkInBook.checkInBook();
+                stopRunning("no");
             }
             case 4 -> {
                 System.out.println("Logging out");
-                stopRunning();
+                stopRunning("yes");
             }
         }
     }
 
-    public static boolean stopRunning() {
-        return false;
+    public static void stopRunning(String keepRun) {
+        Run.runMe = keepRun.equals("no");
     }
 }

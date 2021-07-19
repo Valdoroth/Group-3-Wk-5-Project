@@ -34,7 +34,7 @@ public class FileAccess {
         for (Books line : bookList) {
             StringBuilder lineToWrite = new StringBuilder();
             lineToWrite.append(line.getID()).append(",/").append(line.getISBN()).append(",/").append(line.getTitle()).append(",/").append(line.getAuthor()).append(",/").append(line.getCheckOutQty()).append(",/").append(line.getTotalStock()).append(",/").append(line.getPrice()).append(",/").append(line.getDescription());
-            System.out.println(lineToWrite);
+            //System.out.println(lineToWrite);
             writeToFile.write(lineToWrite +"\n");
             writeToFile.flush();
         }

@@ -20,7 +20,7 @@ public class Main {
                 System.out.println(wrongInput.getMessage() + ": \n" + Arrays.toString(wrongInput.getStackTrace()));
             }
         }
-        while (!Run.stopRunning()) ;
+        while (Run.runMe) ;
         System.out.println("Exiting program.");
         scanner.close();
     }

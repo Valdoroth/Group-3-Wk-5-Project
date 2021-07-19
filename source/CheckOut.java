@@ -2,7 +2,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class CheckOut {
-    private final List<Books> totalInventory = FileAccess.getBooks();
+    private final List<Books> totalInventory = FileAccess.bookList;
 
     public CheckOut(){
     }
@@ -21,11 +21,18 @@ public class CheckOut {
     public Boolean isAvailable(int keyNo){
         boolean result = false;
         for(Books i: totalInventory) {
-            result = i.getID() == keyNo && i.getAvailableAmount() > 0;
+            if(i.getID() == keyNo) {
+                if (i.getAvailableAmount() > 0) result = true;
+            }
+            else result = false;
         } return result;
     }
 
     public void checkOutBook(){
+        Users userCheckOutBook = null;
+        for(Users u : FileAccess.users) {
+            if(u.getEmail().equals(Users.currentUser)) userCheckOutBook = u;
+        }
         Books.showAllAvailableBooks();
         System.out.println("=================");
         Scanner input = new Scanner(System.in);
@@ -39,8 +46,8 @@ public class CheckOut {
             for (Books bookListForCheckOut : FileAccess.bookList) {
                 if (bookListForCheckOut.getID() == keyNo) bookListForCheckOut.setCheckOutQty(1);
             }
-            //Books.setCheckOutQty(1);
-            Users.addToCurrentUserBooks(keyNo);
+            assert userCheckOutBook != null;
+            userCheckOutBook.addToCurrentUserBooks(keyNo);
             System.out.println("Book checked out successfully.");
             checkAnotherOut();
         } else {
